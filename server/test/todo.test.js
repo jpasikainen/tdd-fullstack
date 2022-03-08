@@ -5,10 +5,10 @@ nunjucks.configure('views', {
 });
 
 describe("todo", () => {
-  it("loads", () => {
-    const app = nunjucks.render("todo.html", {})
+  it("initializes", () => {
+    const app = nunjucks.render("todo.html", {"name": "foo", "completed": false})
     expect(app).to.equal(
-      "<div>\n  todo\n</div>"
+      "<div>foo:false</div>"
     );
   });
 });
