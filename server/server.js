@@ -20,6 +20,7 @@ async function testConnection() {
 
 // App
 const app = express();
+
 app.get('/healthcheck', async (req, res) => {
   const ok = await testConnection();
   res.send(ok);
