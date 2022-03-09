@@ -1,4 +1,4 @@
-.completed {
+.completed > input {
   color: grey;
   text-decoration: line-through;
 }
