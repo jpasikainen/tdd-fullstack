@@ -19,4 +19,16 @@ describe('todos', () => {
     fireEvent.click(screen.getByText("test"));
     expect(screen.getByText("test")).not.toHaveClass('completed');
   });
+
+  test('only one is affected on click', () => {
+    render(
+      <div>
+        <Todo name="test" completed={false} />
+        <Todo name="foobar" completed={false} />
+      </div>
+    );
+    fireEvent.click(screen.getByText("test"));
+    expect(screen.getByText("test")).toHaveClass('completed');
+    expect(screen.getByText("foobar")).not.toHaveClass('completed');
+  });
 });
