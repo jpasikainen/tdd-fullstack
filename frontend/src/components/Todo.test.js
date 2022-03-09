@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import Todo from './components/Todo';
+import Todo from './Todo';
 
 describe('todos', () => {
   test('renders', () => {
