@@ -9,7 +9,7 @@ export default function Todo({name, completed}) {
 
   return (
     <div className={isCompleted ? 'completed' : ''}>
-      {name}
+      <input type="text" defaultValue={name} />
       <button onClick={toggle}>Complete</button>
     </div>
   );
