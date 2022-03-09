@@ -10,13 +10,13 @@ describe('todos', () => {
 
   test('can be marked as completed', () => {
     render(<Todo name="test" completed={false} />)
-    fireEvent.click(screen.getByText("test"));
+    fireEvent.click(screen.getByText("Complete"));
     expect(screen.getByText("test")).toHaveClass('completed');
   });
 
   test('can returned back to not completed', () => {
     render(<Todo name="test" completed={true} />)
-    fireEvent.click(screen.getByText("test"));
+    fireEvent.click(screen.getByText("Complete"));
     expect(screen.getByText("test")).not.toHaveClass('completed');
   });
 
@@ -27,7 +27,7 @@ describe('todos', () => {
         <Todo name="foobar" completed={false} />
       </div>
     );
-    fireEvent.click(screen.getByText("test"));
+    fireEvent.click(screen.getAllByText("Complete")[0]);
     expect(screen.getByText("test")).toHaveClass('completed');
     expect(screen.getByText("foobar")).not.toHaveClass('completed');
   });

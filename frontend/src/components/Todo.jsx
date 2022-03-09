@@ -8,8 +8,9 @@ export default function Todo({name, completed}) {
   } 
 
   return (
-    <div className={isCompleted ? 'completed' : ''} onClick={toggle}>
+    <div className={isCompleted ? 'completed' : ''}>
       {name}
+      <button onClick={toggle}>Complete</button>
     </div>
   );
 }
