@@ -20,3 +20,12 @@ services:
     ports:
       - "8080:8080"
   
+  frontend:
+    depends_on:
+      - server
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+  
