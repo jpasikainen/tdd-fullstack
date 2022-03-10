@@ -24,4 +24,14 @@ describe('todo manager', () => {
     fireEvent.click(screen.getByText('Archive'));
     expect(screen.getAllByRole('textbox').length).toBe(1);
   });
+
+  test('archives only completed todos', () => {
+    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
+    fireEvent.click(screen.getByText('Add'));
+    fireEvent.change(screen.getAllByRole('textbox')[0], {target: {value: 'bar'}});
+    fireEvent.click(screen.getByText('Add'));
+    fireEvent.click(screen.getAllByText('Complete')[0]);
+    fireEvent.click(screen.getByText('Archive'));
+    expect(screen.getAllByText('Complete').length).toBe(1);
+  });
 });
