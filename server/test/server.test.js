@@ -35,4 +35,11 @@ describe('server', () => {
     sinon.assert.calledWith(res.code, 201);
     sinon.assert.calledWith(res.send, {message: 'updated'});
   });
+
+  it('gets todo', async () => {
+    controller.getAll(req, res);
+    await flushPromises();
+    sinon.assert.calledWith(res.code, 201);
+    sinon.assert.calledWith(res.send, {message: 'updated'});
+  });
 });

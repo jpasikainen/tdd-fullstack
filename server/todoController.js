@@ -9,3 +9,7 @@ exports.delete = (req, res) => {
 exports.update = (req, res) => {
   res.code(201).send({message: 'updated'});
 }
+
+exports.getAll = (req, res) => {
+  res.code(201).send({message: 'updated'});
+}
