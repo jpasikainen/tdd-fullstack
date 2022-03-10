@@ -27,10 +27,13 @@ describe('server', () => {
     sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1) RETURNING id', ['foo']);
   });
 
-  xit('doesnt add todo without name and completed status', async () => {
+  it('doesnt add todo without name and completed status', async () => {
+    const data = { id: 0 };
+    const dbStub = sinon.stub(db, 'one').resolves(data);
     await controller.create(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 400);
+    sinon.assert.notCalled(dbStub);
   });
 
   it('deletes todo', async () => {
