@@ -1,8 +1,7 @@
 'use strict';
 
 const express = require('express');
-const pgp = require('pg-promise')();
-const db = pgp("postgres://webapp:secret@db:5432/webapp");
+const db = require('./db')
 
 // Constants
 const PORT = 8080;
