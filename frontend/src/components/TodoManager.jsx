@@ -10,11 +10,14 @@ export default function AddTodo() {
     setTodoName("");
   }
 
+  const change = (e) => {
+    setTodoName(e.target.value);
+  }
 
   return (
     <div>
       <div>
-        <input type="text"/>
+        <input type="text" onChange={e => change(e)} value={todoName} />
         <button onClick={add}>Add</button>
       </div>
       {getTodos.map((todo, i) => {
