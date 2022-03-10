@@ -1,10 +1,11 @@
-//const db = require("./db");
+const db = require("./db.js");
 
 exports.create = async (req, res) => {
-  //await db.query('INSERT INTO todos (name, completed) VALUES(${this.csv})', req.body);
   const todo = req.body;
-  if (todo.name === undefined || todo.completed === undefined) return res.code(400);
-  res.code(201).send({message: 'created'});
+  db.one('INSERT INTO todos VALUES($1) RETURNING id', [todo.name])
+    .then((data) => {
+      res.code(201).send({id: data.id});
+    }).catch((err) => res.code(400).send(err));
 }
 
 exports.delete = (req, res) => {
