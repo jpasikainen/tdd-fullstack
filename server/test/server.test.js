@@ -46,9 +46,11 @@ describe('server', () => {
   });
 
   it('doesnt delete todo when no id', async () => {
+    const dbStub = sinon.stub(db, 'one').resolves({});
     controller.delete(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 400);
+    sinon.assert.notCalled(dbStub);
   });
 
   it('updates todo with id, name and completed status', async () => {
