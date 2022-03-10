@@ -16,4 +16,12 @@ describe('todo manager', () => {
     expect(screen.getAllByRole('textbox')[0]).toHaveValue('');
     expect(screen.getAllByRole('textbox')[1]).toHaveValue('foo');
   });
+
+  test('can archive completed', () => {
+    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
+    fireEvent.click(screen.getByText('Add'));
+    fireEvent.click(screen.getByText('Complete'));
+    fireEvent.click(screen.getByText('Archive'));
+    expect(screen.getAllByRole('textbox').length).toBe(1);
+  });
 });

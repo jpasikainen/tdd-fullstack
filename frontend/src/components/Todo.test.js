@@ -1,40 +1,36 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import Todo from './Todo';
 
-describe('todos', () => {
+describe('todo', () => {
+  let updated = false;
+  const mockUpdate = () => updated = true;
+  let toggled = false;
+  const mockToggle = () => toggled = !toggled;
+  beforeEach(() => {
+    updated = false;
+    toggled = false;
+  });
+
   test('renders', () => {
-    const name = 'Test Message'
-    render(<Todo name={name} completed={false} />)
-    expect(screen.getByRole('textbox')).toHaveValue(name)
+    render(<Todo id={0} name={"foo"} completed={false} updateCallback={mockUpdate} toggleCallback={mockToggle} />);
+    expect(screen.getByRole('textbox')).toHaveValue("foo")
   });
-
   test('can be marked as completed', () => {
-    render(<Todo name="test" completed={false} />)
+    render(<Todo id={0} name={"foo"} completed={false} updateCallback={mockUpdate} toggleCallback={mockToggle} />);
     fireEvent.click(screen.getByText('Complete'));
-    expect(screen.getByRole('textbox').closest('div')).toHaveClass('completed');
+    expect(toggled).toBe(true);
   });
-
+  
   test('can returned back to not completed', () => {
-    render(<Todo name="test" completed={true} />)
+    render(<Todo id={0} name={"foo"} completed={false} updateCallback={mockUpdate} toggleCallback={mockToggle} />);
     fireEvent.click(screen.getByText('Complete'));
-    expect(screen.getByRole('textbox').closest('div')).not.toHaveClass('completed');
+    fireEvent.click(screen.getByText('Complete'));
+    expect(toggled).toBe(false);
   });
-
-  test('only one is affected on click', () => {
-    render(
-      <div>
-        <Todo name='test' completed={false} />
-        <Todo name='foobar' completed={false} />
-      </div>
-    );
-    fireEvent.click(screen.getAllByText('Complete')[0]);
-    expect(screen.getAllByRole('textbox')[0].closest('div')).toHaveClass('completed');
-  });
-
+  
   test('can be renamed', () => {
-    render(<Todo name='test' completed={true} />)
+    render(<Todo id={0} name={"foo"} completed={false} updateCallback={mockUpdate} toggleCallback={mockToggle} />);
     fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
-    
-    expect(screen.getByRole('textbox')).toHaveValue('foo')
+    expect(screen.getByRole('textbox')).toHaveValue('foo');
   });
 });
