@@ -10,5 +10,10 @@ describe('todo manager', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  
+  test('creates new todo', () => {
+    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
+    fireEvent.click(screen.getByText('Add'));
+    expect(screen.getAllByRole('textbox')[0]).toHaveValue('');
+    expect(screen.getAllByRole('textbox')[1]).toHaveValue('foo');
+  });
 });
