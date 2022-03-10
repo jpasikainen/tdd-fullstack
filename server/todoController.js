@@ -11,5 +11,5 @@ exports.update = (req, res) => {
 }
 
 exports.getAll = (req, res) => {
-  res.code(201).send({message: 'updated'});
+  res.code(200).send({message: 'updated'});
 }
