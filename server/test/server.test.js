@@ -15,17 +15,24 @@ describe('server', () => {
     sinon.restore();
   });
 
-  it('adds data', async () => {
+  it('adds todo', async () => {
     controller.create(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
     sinon.assert.calledWith(res.send, {message: 'created'});
   });
 
-  it('adds data', async () => {
+  it('deletes todo', async () => {
     controller.delete(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 204);
     sinon.assert.calledWith(res.send, {message: 'deleted'});
+  });
+
+  it('updates todo', async () => {
+    controller.update(req, res);
+    await flushPromises();
+    sinon.assert.calledWith(res.code, 201);
+    sinon.assert.calledWith(res.send, {message: 'updated'});
   });
 });
