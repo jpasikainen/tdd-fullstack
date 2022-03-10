@@ -16,10 +16,17 @@ describe('server', () => {
   });
 
   it('adds todo', async () => {
-    controller.create(req, res);
+    req.body = { name: 'foo', completed: false }
+    await controller.create(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
     sinon.assert.calledWith(res.send, {message: 'created'});
+  });
+
+  it('doesnt add faulty todo', async () => {
+    await controller.create(req, res);
+    await flushPromises();
+    sinon.assert.calledWith(res.code, 400);
   });
 
   it('deletes todo', async () => {
