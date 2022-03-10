@@ -1,9 +1,9 @@
-import Todo from "./components/Todo"
 import './App.css'
+import TodoManager from "./components/TodoManager"
 
 function App() {
   return (
-    <Todo name="foo" completed={false} />
+    <TodoManager />
   );
 }
 
