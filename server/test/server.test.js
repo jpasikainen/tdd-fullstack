@@ -57,10 +57,10 @@ describe('server', () => {
     sinon.assert.calledWith(res.code, 400);
   });
 
-  it('gets todo', async () => {
+  it('gets all todos', async () => {
     controller.getAll(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 200);
-    sinon.assert.calledWith(res.send, {message: 'updated'});
+    sinon.assert.calledWith(res.send, []);
   });
 });

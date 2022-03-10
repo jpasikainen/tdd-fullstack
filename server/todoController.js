@@ -20,5 +20,6 @@ exports.update = (req, res) => {
 }
 
 exports.getAll = (req, res) => {
-  res.code(200).send({message: 'updated'});
+  const todos = [];
+  res.code(200).send(todos);
 }
