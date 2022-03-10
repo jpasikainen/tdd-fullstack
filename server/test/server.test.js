@@ -24,12 +24,11 @@ describe('server', () => {
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
     sinon.assert.calledWith(res.send, {id: 0});
-    sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1) RETURNING id', ['foo']);
+    sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1) RETURNING id', ['foo', false]);
   });
 
   it('doesnt add todo without name and completed status', async () => {
-    const data = { id: 0 };
-    const dbStub = sinon.stub(db, 'one').resolves(data);
+    const dbStub = sinon.stub(db, 'one').resolves({});
     await controller.create(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 400);
@@ -37,11 +36,13 @@ describe('server', () => {
   });
 
   it('deletes todo', async () => {
+    const dbStub = sinon.stub(db, 'one').resolves({});
     req.body = { id: 0 }
     controller.delete(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 204);
     sinon.assert.calledWith(res.send, {message: 'deleted'});
+    sinon.assert.calledWith(dbStub, 'DELETE FROM todos WHERE id=$1', [0]);
   });
 
   it('doesnt delete todo when no id', async () => {

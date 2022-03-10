@@ -4,7 +4,7 @@ exports.create = async (req, res) => {
   const todo = req.body;
   if (todo.name === undefined) return res.code(400);
 
-  db.one('INSERT INTO todos VALUES($1) RETURNING id', [todo.name])
+  db.one('INSERT INTO todos VALUES($1) RETURNING id', [todo.name, false])
     .then((data) => {
       res.code(201).send({id: data.id});
     }).catch((err) => res.code(400).send(err));
@@ -13,7 +13,10 @@ exports.create = async (req, res) => {
 exports.delete = (req, res) => {
   const id = req.body.id;
   if (id === undefined) return res.code(400);
-  res.code(204).send({message: 'deleted'});
+  db.one('DELETE FROM todos WHERE id=$1', [id])
+    .then((data) => {
+      res.code(204).send({message: 'deleted'});
+    }).catch((err) => res.code(400).send(err));
 }
 
 exports.update = (req, res) => {
