@@ -23,17 +23,24 @@ describe('server', () => {
     sinon.assert.calledWith(res.send, {message: 'created'});
   });
 
-  it('doesnt add faulty todo', async () => {
+  it('doesnt add todo without name and completed status', async () => {
     await controller.create(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 400);
   });
 
   it('deletes todo', async () => {
+    req.body = { id: 0 }
     controller.delete(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 204);
     sinon.assert.calledWith(res.send, {message: 'deleted'});
+  });
+
+  it('doesnt delete todo when no id', async () => {
+    controller.delete(req, res);
+    await flushPromises();
+    sinon.assert.calledWith(res.code, 400);
   });
 
   it('updates todo', async () => {

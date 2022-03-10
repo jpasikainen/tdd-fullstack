@@ -8,6 +8,8 @@ exports.create = async (req, res) => {
 }
 
 exports.delete = (req, res) => {
+  const id = req.body.id;
+  if (id === undefined) return res.code(400);
   res.code(204).send({message: 'deleted'});
 }
 
