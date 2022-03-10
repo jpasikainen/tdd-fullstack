@@ -43,11 +43,18 @@ describe('server', () => {
     sinon.assert.calledWith(res.code, 400);
   });
 
-  it('updates todo', async () => {
+  it('updates todo with id, name and completed status', async () => {
+    req.body = { id: 0, name: 'foo', completed: false }
     controller.update(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
-    sinon.assert.calledWith(res.send, {message: 'updated'});
+    sinon.assert.calledWith(res.send, { id: 0, name: 'foo', completed: false });
+  });
+
+  it('doesnt update faulty todo', async () => {
+    controller.update(req, res);
+    await flushPromises();
+    sinon.assert.calledWith(res.code, 400);
   });
 
   it('gets todo', async () => {

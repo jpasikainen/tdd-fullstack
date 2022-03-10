@@ -14,7 +14,9 @@ exports.delete = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  res.code(201).send({message: 'updated'});
+  const todo = req.body;
+  if (todo.id === undefined || todo.name === undefined || todo.completed === undefined) return res.code(400);
+  res.code(201).send({ id: todo.id, name: todo.name, completed: todo.completed });
 }
 
 exports.getAll = (req, res) => {
