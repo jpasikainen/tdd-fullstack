@@ -5,3 +5,7 @@ exports.create = (req, res) => {
 exports.delete = (req, res) => {
   res.code(204).send({message: 'deleted'});
 }
+
+exports.update = (req, res) => {
+  res.code(201).send({message: 'updated'});
+}
