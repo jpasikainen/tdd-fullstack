@@ -71,9 +71,13 @@ describe('server', () => {
   });
 
   it('gets all todos', async () => {
+    const data = [{ id: 0, name: 'foo', completed: false }, { id: 1, name: 'bar', completed: true }];
+    const dbStub = sinon.stub(db, 'one').resolves(data);
+    req.body = {};
     controller.getAll(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 200);
-    sinon.assert.calledWith(res.send, []);
+    sinon.assert.calledWith(res.send, data);
+    sinon.assert.calledWith(dbStub, 'SELECT * FROM todos');
   });
 });

@@ -29,6 +29,7 @@ exports.update = (req, res) => {
 }
 
 exports.getAll = (req, res) => {
-  const todos = [];
-  res.code(200).send(todos);
+  db.one('SELECT * FROM todos').then((data) => {
+    res.code(200).send(data)
+  });
 }
