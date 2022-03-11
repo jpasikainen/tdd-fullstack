@@ -24,7 +24,7 @@ describe('server', () => {
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
     sinon.assert.calledWith(res.send, {id: 0});
-    sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1) RETURNING id', ['foo', false]);
+    sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1, $2) RETURNING id', ['foo', false]);
   });
 
   it('doesnt add todo without name and completed status', async () => {
@@ -54,11 +54,14 @@ describe('server', () => {
   });
 
   it('updates todo with id, name and completed status', async () => {
-    req.body = { id: 0, name: 'foo', completed: false }
+    const data = { id: 0, name: 'foo', completed: false };
+    const dbStub = sinon.stub(db, 'one').resolves(data);
+    req.body = { id: 0, name: 'bar', completed: true }
     controller.update(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.code, 201);
-    sinon.assert.calledWith(res.send, { id: 0, name: 'foo', completed: false });
+    sinon.assert.calledWith(res.send, { id: 0, name: 'bar', completed: true });
+    sinon.assert.calledWith(dbStub, 'UPDATE todos SET name = $1, completed = $2 WHERE id = $3 RETURNING id, name, completed', ['bar', true, 0]);
   });
 
   it('doesnt update faulty todo', async () => {
