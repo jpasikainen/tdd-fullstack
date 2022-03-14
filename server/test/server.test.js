@@ -24,7 +24,7 @@ describe('server', () => {
     await flushPromises();
     sinon.assert.calledWith(res.status, 201);
     sinon.assert.calledWith(res.send, {id: 0});
-    sinon.assert.calledWith(dbStub, 'INSERT INTO todos VALUES($1, $2) RETURNING id', ['foo', false]);
+    sinon.assert.calledWith(dbStub, 'INSERT INTO todos (name, completed) VALUES($1, $2) RETURNING id', ['foo', false]);
   });
 
   it('doesnt add todo without name and completed status', async () => {

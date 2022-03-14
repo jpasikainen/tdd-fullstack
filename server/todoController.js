@@ -2,9 +2,10 @@ const db = require("./db.js");
 
 exports.create = async (req, res) => {
   const todo = req.body;
+  console.log(todo);
   if (todo.name === undefined) return res.status(400);
 
-  db.one('INSERT INTO todos VALUES($1, $2) RETURNING id', [todo.name, false])
+  db.one('INSERT INTO todos (name, completed) VALUES($1, $2) RETURNING id', [todo.name, false])
     .then((data) => {
       res.status(201).send({id: data.id});
     }).catch((err) => res.status(400).send(err));
