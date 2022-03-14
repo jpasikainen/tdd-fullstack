@@ -48,12 +48,7 @@ export default function TodoManager({getAll, create, put}) {
       return todo;
     })
     setTodos(updatedTodos);
-    await fetch("http://localhost:8080/", {
-      method: 'PUT',
-      mode: 'cors',
-      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: id, name: n, completed: c })
-    });
+    await put(id, n, c);
   }
 
   const archive = async () => {
