@@ -4,7 +4,7 @@ export default function Todo({id, name, completed, updateCallback, toggleCallbac
   return (
     <div className={completed ? 'completed' : ''}>
       <input type='text' onChange={async (e) => await updateCallback(id, e)} value={name} />
-      <button onClick={() => toggleCallback(id)}>Complete</button>
+      <button onClick={async () => await toggleCallback(id)}>Complete</button>
     </div>
   );
 }

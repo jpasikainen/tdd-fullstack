@@ -59,12 +59,24 @@ export default function TodoManager({getAll}) {
     });
   }
 
-  const toggle = (id) => {
+  const toggle = async (id) => {
+    let c = false;
+    let n = "";
     const updatedTodos = getTodos.map(todo => {
-      if (todo.id === id) return {...todo, completed: !todo.completed}
+      if (todo.id === id) {
+        c = !todo.completed;
+        n = todo.name;
+        return {...todo, completed: !todo.completed}
+      }
       return todo;
     })
     setTodos(updatedTodos);
+    await fetch("http://localhost:8080/", {
+      method: 'PUT',
+      mode: 'cors',
+      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id, name: n, completed: c })
+    });
   }
 
   const archive = () => {
