@@ -1,7 +1,10 @@
 'use strict';
 
 const express = require('express');
+const router = express.Router();
+const cors = require('cors')
 const db = require('./db')
+const controller = require('./todoController')
 
 // Constants
 const PORT = 8080;
@@ -19,11 +22,19 @@ async function testConnection() {
 
 // App
 const app = express();
+app.use(cors())
 
 app.get('/healthcheck', async (req, res) => {
   const ok = await testConnection();
   res.send(ok);
 });
+
+router.get('/', controller.getAll);
+router.put('/', controller.update);
+router.delete('/', controller.delete);
+router.post('/', controller.create);
+
+app.use(router)
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

@@ -10,6 +10,7 @@
         "autotest": "npm run test -- --watch"
     },
     "dependencies": {
+        "cors": "^2.8.5",
         "express": "^4.16.1",
         "pg-promise": "^10.11.1"
     },
