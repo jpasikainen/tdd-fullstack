@@ -12,11 +12,9 @@ exports.create = async (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  const id = req.body.id;
-  if (id === undefined) return res.status(400);
-  db.one('DELETE FROM todos WHERE id=$1', [id])
+  db.any('DELETE FROM todos WHERE completed = TRUE', [])
     .then((data) => {
-      res.status(204).send({message: 'deleted'});
+      res.status(204);
     }).catch((err) => res.status(400).send(err));
 }
 

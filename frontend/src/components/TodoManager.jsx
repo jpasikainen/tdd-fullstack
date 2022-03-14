@@ -4,7 +4,6 @@ import Todo from "./Todo";
 export default function TodoManager({getAll}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
-  const [id, setId] = useState(0);
 
   useEffect(() => {
     const load = async () => {
@@ -28,12 +27,13 @@ export default function TodoManager({getAll}) {
       method: 'POST',
       mode: 'cors',
       headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: id, name: todoName, completed: false })
+      body: JSON.stringify({ name: todoName })
     });
-    const latestId = await res.json().id;
+    const json = await res.json();
+    console.log(json)
 
-    setTodos([...getTodos, {id: id, name: todoName, completed: false}]);
-    setId(latestId + 1);
+    setTodos([...getTodos, {id: json.id, name: todoName, completed: false}]);
+    console.log([...getTodos, {id: json.id, name: todoName, completed: false}])
     setTodoName("");
   }
 
@@ -79,9 +79,21 @@ export default function TodoManager({getAll}) {
     });
   }
 
-  const archive = () => {
+  const archive = async () => {
     const updatedTodos = getTodos.filter(todo => todo.completed === false);
     setTodos(updatedTodos);
+
+    const deleteTodos = getTodos.filter(todo => todo.completed === true);
+    const deleteIds = [];
+    for (const todo in deleteTodos) {
+      deleteIds.push(deleteTodos[todo].id);
+    }
+
+    await fetch("http://localhost:8080/", {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: { 'Access-Control-Allow-Origin':'*'},
+    });
   }
 
   return (
