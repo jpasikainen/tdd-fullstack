@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 
-export default function TodoManager({getAll, create, put}) {
+export default function TodoManager({getAll, create, put, deleteAll}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
 
@@ -61,11 +61,7 @@ export default function TodoManager({getAll, create, put}) {
       deleteIds.push(deleteTodos[todo].id);
     }
 
-    await fetch("http://localhost:8080/", {
-      method: 'DELETE',
-      mode: 'cors',
-      headers: { 'Access-Control-Allow-Origin':'*'},
-    });
+    await deleteAll();
   }
 
   return (

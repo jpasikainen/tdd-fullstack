@@ -33,3 +33,11 @@ export const put = async (id, name, completed) => {
     body: JSON.stringify({ id: id, name: name, completed: completed })
   });
 }
+
+export const deleteAll = async () => {
+  await fetch("http://localhost:8080/", {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: { 'Access-Control-Allow-Origin':'*'},
+  });
+}
