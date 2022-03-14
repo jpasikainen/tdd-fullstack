@@ -41,12 +41,22 @@ export default function TodoManager({getAll}) {
     setTodoName(e.target.value);
   }
 
-  const update = (id, e) => {
+  const update = async (id, e) => {
+    let c = false;
     const updatedTodos = getTodos.map(todo => {
-      if (todo.id === id) return {...todo, name: e.target.value}
+      if (todo.id === id) {
+        c = todo.completed;
+        return {...todo, name: e.target.value}
+      }
       return todo;
     })
     setTodos(updatedTodos);
+    await fetch("http://localhost:8080/", {
+      method: 'PUT',
+      mode: 'cors',
+      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id, name: e.target.value, completed: c })
+    });
   }
 
   const toggle = (id) => {
