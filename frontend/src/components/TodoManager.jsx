@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 
-export default function TodoManager({getAll, create}) {
+export default function TodoManager({getAll, create, put}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
 
@@ -33,12 +33,7 @@ export default function TodoManager({getAll, create}) {
       return todo;
     })
     setTodos(updatedTodos);
-    await fetch("http://localhost:8080/", {
-      method: 'PUT',
-      mode: 'cors',
-      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: id, name: e.target.value, completed: c })
-    });
+    await put(id, e.target.value, c);
   }
 
   const toggle = async (id) => {
