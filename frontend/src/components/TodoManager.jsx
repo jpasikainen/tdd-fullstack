@@ -6,20 +6,10 @@ export default function TodoManager({getAll}) {
   const [todoName, setTodoName] = useState("");
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/", {
-          mode: 'cors',
-          headers: {
-            'Access-Control-Allow-Origin':'*'
-          }
-        });
-        if (!res.ok) return;
-        const todos = await res.json();
-        setTodos(todos);
-      } catch (err) { setTodos([]); }
-    }
-    load();
+    (async () => {
+      let res = await getAll();
+      setTodos(res);
+    })();
   }, [getAll]);
 
   const add = async () => {
