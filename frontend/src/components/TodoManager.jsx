@@ -23,7 +23,14 @@ export default function TodoManager({getAll}) {
     load();
   }, [getAll]);
 
-  const add = () => {
+  const add = async () => {
+    await fetch("http://localhost:8080/", {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id, name: todoName, completed: false })
+    });
+
     setTodos([...getTodos, {id: id, name: todoName, completed: false}]);
     setId(id + 1);
     setTodoName("");
