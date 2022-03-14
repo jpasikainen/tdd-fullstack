@@ -13,3 +13,14 @@ export const getAll = async () => {
     return [];
   }
 };
+
+export const create = async (todoName) => {
+  const res = await fetch("http://localhost:8080/", {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: todoName })
+  });
+  const json = await res.json();
+  return json;
+}

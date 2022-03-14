@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 
-export default function TodoManager({getAll}) {
+export default function TodoManager({getAll, create}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
 
@@ -13,15 +13,7 @@ export default function TodoManager({getAll}) {
   }, [getAll]);
 
   const add = async () => {
-    const res = await fetch("http://localhost:8080/", {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Access-Control-Allow-Origin':'*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: todoName })
-    });
-    const json = await res.json();
-    console.log(json)
-
+    const json = await create(todoName);
     setTodos([...getTodos, {id: json.id, name: todoName, completed: false}]);
     console.log([...getTodos, {id: json.id, name: todoName, completed: false}])
     setTodoName("");
