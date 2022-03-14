@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 
-export default function AddTodo() {
+export default function TodoManager({getAll}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
   const [id, setId] = useState(0);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/", {
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin':'*'
+          }
+        });
+        if (!res.ok) return;
+        const todos = await res.json();
+        setTodos(todos);
+      } catch (err) { setTodos([]); }
+    }
+    load();
+  }, [getAll]);
 
   const add = () => {
     setTodos([...getTodos, {id: id, name: todoName, completed: false}]);

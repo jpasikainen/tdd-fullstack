@@ -2,8 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import TodoManager from './TodoManager';
 
 describe('todo manager', () => {
+  const getAll = jest.fn();
   beforeEach(() => {
-    render(<TodoManager />)
+    render(<TodoManager getAll={getAll} />);
   });
 
   test('initializes', () => {
