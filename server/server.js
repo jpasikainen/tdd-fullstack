@@ -23,6 +23,7 @@ async function testConnection() {
 // App
 const app = express();
 app.use(cors())
+app.use(express.json())
 
 app.get('/healthcheck', async (req, res) => {
   const ok = await testConnection();
