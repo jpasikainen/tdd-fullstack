@@ -24,5 +24,13 @@ describe('service', () => {
       {"body": "{\"name\":\"foo\"}", "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}, "method": "POST", "mode": "cors"}
     );
     expect(id).toEqual({"id": 1});
-  })
+  });
+
+  it('put is called correctly', async () => {
+    await put(1, 'foo', true);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8080/",
+      {"body": "{\"id\":1,\"name\":\"foo\",\"completed\":true}", "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}, "method": "PUT", "mode": "cors"}
+    );
+  });
 })
