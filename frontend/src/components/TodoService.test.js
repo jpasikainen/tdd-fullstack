@@ -36,4 +36,12 @@ describe('service', () => {
       {"body": "{\"id\":1,\"name\":\"foo\",\"completed\":true}", "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}, "method": "PUT", "mode": "cors"}
     );
   });
+
+  it('delete works', async () => {
+    await deleteAll();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8080/",
+      {"headers": {"Access-Control-Allow-Origin": "*"}, "method": "DELETE", "mode": "cors"}
+    );
+  });
 })
