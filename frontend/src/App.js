@@ -4,7 +4,7 @@ import { create, deleteAll, getAll, put } from './components/TodoService';
 
 function App() {
   return (
-    <TodoManager getAll={getAll} create={create} put={put} delete={deleteAll} />
+    <TodoManager getAll={getAll} create={create} put={put} deleteAll={deleteAll} />
   );
 }
 

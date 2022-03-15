@@ -1,38 +1,51 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import TodoManager from './TodoManager';
 
 describe('todo manager', () => {
-  const getAll = jest.fn();
+  let getAll;
+  let create;
+  let put;
+  let deleteAll;
   beforeEach(() => {
-    render(<TodoManager getAll={getAll} />);
+    getAll = jest.fn();
+    create = jest.fn().mockReturnValue({id: 0, name: 'foo', completed: false});
+    put = jest.fn();
+    deleteAll = jest.fn();
+    render(<TodoManager testing={true} getAll={getAll} create={create} put={put} deleteAll={deleteAll} />)
   });
 
   test('initializes', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
-
-  test('creates new todo', () => {
+  
+  test('creates new todo', async () => {
     fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
-    fireEvent.click(screen.getByText('Add'));
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('Add'));
+    });
+    
     expect(screen.getAllByRole('textbox')[0]).toHaveValue('');
     expect(screen.getAllByRole('textbox')[1]).toHaveValue('foo');
+    expect(create).toBeCalledWith('foo');
   });
 
-  test('can archive completed', () => {
-    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
-    fireEvent.click(screen.getByText('Add'));
-    fireEvent.click(screen.getByText('Complete'));
-    fireEvent.click(screen.getByText('Archive'));
-    expect(screen.getAllByRole('textbox').length).toBe(1);
+  test('can archive completed', async () => {
+    await waitFor(() => {
+      fireEvent.change(screen.getAllByRole('textbox')[0], {target: {value: 'foo'}});
+      fireEvent.click(screen.getByText('Add'));
+      fireEvent.click(screen.getByText('Complete'));
+      fireEvent.click(screen.getByText('Archive'));
+    });
+    expect(put).toBeCalledWith(0, '', true);
+    expect(deleteAll).toBeCalledWith();
   });
-
-  test('archives only completed todos', () => {
-    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'foo'}});
-    fireEvent.click(screen.getByText('Add'));
-    fireEvent.change(screen.getAllByRole('textbox')[0], {target: {value: 'bar'}});
-    fireEvent.click(screen.getByText('Add'));
-    fireEvent.click(screen.getAllByText('Complete')[0]);
-    fireEvent.click(screen.getByText('Archive'));
-    expect(screen.getAllByText('Complete').length).toBe(1);
-  });
+  
+  test('updates todo text when changed', async () => {
+    await waitFor(() => {
+      fireEvent.change(screen.getAllByRole('textbox')[0], {target: {value: 'foo'}});
+      fireEvent.click(screen.getByText('Add'));
+      fireEvent.change(screen.getAllByRole('textbox')[1], {target: {value: 'bar'}});
+    })
+    expect(put).toBeCalledWith(0, 'bar', false);  });
 });

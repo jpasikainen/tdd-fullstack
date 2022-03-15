@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Todo from "./Todo";
 
-export default function TodoManager({getAll, create, put, deleteAll}) {
+export default function TodoManager({getAll, create, put, deleteAll, testing}) {
   const [getTodos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
 
   useEffect(() => {
+    if (testing) return;
     (async () => {
       let res = await getAll();
       setTodos(res);
