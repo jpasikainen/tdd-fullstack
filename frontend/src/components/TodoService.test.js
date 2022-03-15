@@ -14,7 +14,10 @@ describe('service', () => {
 
   it('gets all', async () => {
     await getAll();
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:8080/",
+      {"headers": {"Access-Control-Allow-Origin": "*"}, "mode": "cors"}
+    );
   });
 
   it('gets id back when creating', async () => {
