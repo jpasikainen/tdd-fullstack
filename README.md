@@ -1,3 +1,6 @@
-start ``docker-compose up --build``
+Start: ``docker-compose up --build``
 
-test ``./end-to-end-test.sh``
+Test\
+e2e: ``./end-to-end-test.sh``\
+frontend: ``cd frontend && npm run test``\
+backend: ``cd backend && npm run test``
