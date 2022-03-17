@@ -36,13 +36,11 @@ describe('server', () => {
   });
 
   it('deletes todo', async () => {
-    const dbStub = sinon.stub(db, 'one').resolves({});
-    req.body = { id: 0 }
+    const dbStub = sinon.stub(db, 'any').resolves({});
     controller.delete(req, res);
     await flushPromises();
     sinon.assert.calledWith(res.status, 204);
-    sinon.assert.calledWith(res.send, {message: 'deleted'});
-    sinon.assert.calledWith(dbStub, 'DELETE FROM todos WHERE id=$1', [0]);
+    sinon.assert.calledWith(dbStub, 'DELETE FROM todos WHERE completed = TRUE', []);
   });
 
   it('doesnt delete todo when no id', async () => {
