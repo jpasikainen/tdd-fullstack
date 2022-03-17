@@ -43,14 +43,6 @@ describe('server', () => {
     sinon.assert.calledWith(dbStub, 'DELETE FROM todos WHERE completed = TRUE', []);
   });
 
-  it('doesnt delete todo when no id', async () => {
-    const dbStub = sinon.stub(db, 'one').resolves({});
-    controller.delete(req, res);
-    await flushPromises();
-    sinon.assert.calledWith(res.status, 400);
-    sinon.assert.notCalled(dbStub);
-  });
-
   it('updates todo with id, name and completed status', async () => {
     const data = { id: 0, name: 'foo', completed: false };
     const dbStub = sinon.stub(db, 'one').resolves(data);
